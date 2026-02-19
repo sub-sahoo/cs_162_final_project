@@ -1,7 +1,27 @@
+const frames = [
+    { title: "Frame 1", year: 1920, wage: 5 },
+    { title: "Frame 2", year: 1945, wage: 7 },
+    { title: "Frame 3", year: 1970, wage: 1 },
+    { title: "Frame 4", year: 1995, wage: 1 },
+    { title: "Frame 5", year: 2020, wage: 2 },
+];
+
 let currentFrame = -1;
-const totalFrames = 5;
 
 $(document).ready(function () {
+    const $container = $('#frames');
+    frames.forEach(function (f, i) {
+        $container.append(
+            '<section class="frame">' +
+            '<div class="frame-content">' +
+            '<h1>' + f.title + '</h1>' +
+            '<p>' + f.year + ' &mdash; $' + f.wage.toFixed(2) + '</p>' +
+            '</div>' +
+            '</section>'
+        );
+    });
+
+    // ── Progress bar ──
     $('body').prepend(
         '<div id="frame-progress"><div id="frame-progress-bar"></div></div>'
     );
@@ -31,7 +51,7 @@ $(document).ready(function () {
     $(document).on('keydown', function (e) {
         if (e.key === 'ArrowDown' || e.key === ' ') {
             e.preventDefault();
-            scrollToFrame(Math.min(currentFrame + 1, totalFrames - 1));
+            scrollToFrame(Math.min(currentFrame + 1, frames.length - 1));
         } else if (e.key === 'ArrowUp') {
             e.preventDefault();
             scrollToFrame(Math.max(currentFrame - 1, 0));
@@ -53,27 +73,16 @@ function updateActiveFrame(newIndex) {
     $('.frame').removeClass('active');
     $('.frame').eq(newIndex).addClass('active');
 
-    // Fire callbacks
     if (prevIndex >= 0) onFrameLeave(prevIndex);
     onFrameEnter(newIndex);
 }
 
 function onFrameEnter(frameIndex) {
-    console.log('→ Entered frame', frameIndex);
-    switch (frameIndex) {
-        case 0:
-            break;
-        case 1:
-            break;
-        case 2:
-            break;
-        case 3:
-            break;
-        case 4:
-            break;
-    }
+    const data = frames[frameIndex];
+    console.log('→ Entered frame', frameIndex, data);
 }
 
 function onFrameLeave(frameIndex) {
-    console.log('← Left frame', frameIndex);
+    const data = frames[frameIndex];
+    console.log('← Left frame', frameIndex, data);
 }
