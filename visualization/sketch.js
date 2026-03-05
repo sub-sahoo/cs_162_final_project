@@ -10,11 +10,56 @@ const frames = [
         template: 'card',
         image: 'assets/frame2.png',
         body: 'Wartime Order No. 15 was proclaimed by Union general William Sherman in 1865 during the American Civil War, to allot 400,000 acres to 18,000 formerly enslaved families in parcels of at most 40 acres of land. This land was across Georgia, South Carolina, and Florida. The promise was reversed by President Johnson.',
-        year: 1865,
     },
-    { title: "Frame 3", year: 1970, wage: 1 },
-    { title: "Frame 4", year: 1995, wage: 1 },
-    { title: "Frame 5", year: 2020, wage: 2 },
+    { title: "Frame 3", wage: 1 },
+    { title: "Frame 4", wage: 1 },
+    { title: "Frame 5", wage: 2 },
+    { title: "Frame 6", wage: 1 },
+    { title: "Frame 7", wage: 1 },
+    { title: "Frame 8", wage: 1 },
+    { title: "Frame 9", wage: 1 },
+    { title: "Frame 10", wage: 1 },
+    { title: "Frame 11", wage: 1 },
+    { title: "Frame 12", wage: 1 },
+    { title: "Frame 13", wage: 1 },
+    { title: "Frame 14", wage: 1 },
+    { title: "Frame 15", wage: 1 },
+    { title: "Frame 16", wage: 1 },
+    { title: "Frame 17", wage: 1 },
+    { title: "Frame 18", wage: 1 },
+    { title: "Frame 19", wage: 1 },
+    { title: "Frame 20", wage: 1 },
+    { title: "Frame 21", wage: 1 },
+    { title: "Frame 22", wage: 1 },
+    { title: "Frame 23", wage: 1 },
+    { title: "Frame 24", wage: 1 },
+    { title: "Frame 25", wage: 1 },
+    { title: "Frame 26", wage: 1 },
+    { title: "Frame 27", wage: 1 },
+    { title: "Frame 28", wage: 1 },
+    { title: "Frame 29", wage: 1 },
+    { title: "Frame 30", wage: 1 },
+    { title: "Frame 31", wage: 1 },
+];
+
+// Fixed timeline categories (top bar labels). Index 0 = leftmost, 7 = rightmost.
+const TIMELINE_CATEGORIES = [
+    'Present',
+    '1865',
+    '1910s-20s',
+    '1930s-40s',
+    '1950s-60s',
+    '1970s-80s',
+    '2000s',
+    'Present',
+];
+
+// Frame index → last bucket index to fill (inclusive). -1 = no buckets filled.
+// Bucket indices: 0=Present, 1=1865, 2=1910s-20s, 3=1930s-40s, 4=1950s-60s, 5=1970s-80s, 6=2000s, 7=Present
+const FRAME_TO_FILLED_BUCKET = [
+    -1, -1, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2,  // frames 0–11
+    3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 6,  // frames 12–23
+    6, 6, 7, 7, 7, 7, 7,                   // frames 24–30
 ];
 
 let currentFrame = -1;
@@ -53,21 +98,16 @@ $(document).ready(function () {
                 '<section class="frame">' +
                 '<div class="frame-content">' +
                 '<h1>' + f.title + '</h1>' +
-                '<p>' + f.year + ' &mdash; $' + f.wage.toFixed(2) + '</p>' +
+                '<p>$' + f.wage.toFixed(2) + '</p>' +
                 '</div>' +
                 '</section>'
             );
         }
     });
 
-    // ── Timeline buckets (one per frame) ──
+    // ── Timeline buckets (fixed categories, not tied to frames) ──
     const $timeline = $('<div id="timeline"></div>');
-    frames.forEach(function (f, i) {
-        const label = f.template === 'title' ? 'Intro' : (() => {
-            const next = i < frames.length - 1 ? frames[i + 1] : null;
-            const nextYear = next && next.year ? next.year : f.year;
-            return f.year + (nextYear !== f.year ? '–' + nextYear : '');
-        })();
+    TIMELINE_CATEGORIES.forEach(function (label, i) {
         $timeline.append(
             '<div class="timeline-bucket" data-index="' + i + '">' +
             '<span class="timeline-bucket-label">' + label + '</span>' +
@@ -119,11 +159,12 @@ function updateActiveFrame(newIndex) {
     $('.frame').removeClass('active');
     $('.frame').eq(newIndex).addClass('active');
 
-    // Fill buckets 0 through (newIndex - 1); first frame has none filled
+    // Fill buckets 0 through filledUpTo (inclusive) per FRAME_TO_FILLED_BUCKET config
+    const filledUpTo = FRAME_TO_FILLED_BUCKET[newIndex] ?? -1;
     $('.timeline-bucket').removeClass('filled');
     $('.timeline-bucket').each(function () {
         const idx = parseInt($(this).data('index'), 10);
-        if (idx < newIndex) $(this).addClass('filled');
+        if (idx <= filledUpTo) $(this).addClass('filled');
     });
 
     if (prevIndex >= 0) onFrameLeave(prevIndex);
