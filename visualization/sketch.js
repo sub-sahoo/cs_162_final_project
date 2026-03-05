@@ -6,7 +6,12 @@ const frames = [
         attribution: 'A data story by Sub, Maddy, Pearl, and Sayuj',
         image: 'assets/frame1.png',
     },
-    { title: "Frame 2", year: 1945, wage: 7 },
+    {
+        template: 'card',
+        image: 'assets/frame2.png',
+        body: 'Wartime Order No. 15 was proclaimed by Union general William Sherman in 1865 during the American Civil War, to allot 400,000 acres to 18,000 formerly enslaved families in parcels of at most 40 acres of land. This land was across Georgia, South Carolina, and Florida. The promise was reversed by President Johnson.',
+        year: 1865,
+    },
     { title: "Frame 3", year: 1970, wage: 1 },
     { title: "Frame 4", year: 1995, wage: 1 },
     { title: "Frame 5", year: 2020, wage: 2 },
@@ -17,7 +22,17 @@ let currentFrame = -1;
 $(document).ready(function () {
     const $container = $('#frames');
     frames.forEach(function (f, i) {
-        if (f.template === 'title') {
+        if (f.template === 'card') {
+            const img = f.image ? '<img class="frame-card-image" src="' + f.image + '" alt="">' : '';
+            $container.append(
+                '<section class="frame frame-card">' +
+                '<div class="frame-content frame-card-content">' +
+                img +
+                '<p class="frame-card-text">' + (f.body || '') + '</p>' +
+                '</div>' +
+                '</section>'
+            );
+        } else if (f.template === 'title') {
             const img = f.image ? '<img class="frame-title-image" src="' + f.image + '" alt="">' : '';
             $container.append(
                 '<section class="frame frame-title">' +
