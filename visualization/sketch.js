@@ -1,66 +1,4 @@
-const frames = [
-    {
-        template: 'title',
-        title: '40 acres and a mule',
-        subtitle: 'A promise to black families left unkempt.',
-        attribution: 'A data story by Sub, Maddy, Pearl, and Sayuj',
-        image: 'assets/frame1.png',
-    },
-    {
-        template: 'card',
-        image: 'assets/frame2.png',
-        body: 'Wartime Order No. 15 was proclaimed by Union general William Sherman in 1865 during the American Civil War, to allot 400,000 acres to 18,000 formerly enslaved families in parcels of at most 40 acres of land. This land was across Georgia, South Carolina, and Florida. The promise was reversed by President Johnson.',
-    },
-    { title: "Frame 3", wage: 1 },
-    { title: "Frame 4", wage: 1 },
-    { title: "Frame 5", wage: 2 },
-    { title: "Frame 6", wage: 1 },
-    { title: "Frame 7", wage: 1 },
-    { title: "Frame 8", wage: 1 },
-    { title: "Frame 9", wage: 1 },
-    { title: "Frame 10", wage: 1 },
-    { title: "Frame 11", wage: 1 },
-    { title: "Frame 12", wage: 1 },
-    { title: "Frame 13", wage: 1 },
-    { title: "Frame 14", wage: 1 },
-    { title: "Frame 15", wage: 1 },
-    { title: "Frame 16", wage: 1 },
-    { title: "Frame 17", wage: 1 },
-    { title: "Frame 18", wage: 1 },
-    { title: "Frame 19", wage: 1 },
-    { title: "Frame 20", wage: 1 },
-    { title: "Frame 21", wage: 1 },
-    { title: "Frame 22", wage: 1 },
-    { title: "Frame 23", wage: 1 },
-    { title: "Frame 24", wage: 1 },
-    { title: "Frame 25", wage: 1 },
-    { title: "Frame 26", wage: 1 },
-    { title: "Frame 27", wage: 1 },
-    { title: "Frame 28", wage: 1 },
-    { title: "Frame 29", wage: 1 },
-    { title: "Frame 30", wage: 1 },
-    { title: "Frame 31", wage: 1 },
-];
-
-// Fixed timeline categories (top bar labels). Index 0 = leftmost, 7 = rightmost.
-const TIMELINE_CATEGORIES = [
-    'Present',
-    '1865',
-    '1910s-20s',
-    '1930s-40s',
-    '1950s-60s',
-    '1970s-80s',
-    '2000s',
-    'Present',
-];
-
-// Frame index → last bucket index to fill (inclusive). -1 = no buckets filled.
-// Bucket indices: 0=Present, 1=1865, 2=1910s-20s, 3=1930s-40s, 4=1950s-60s, 5=1970s-80s, 6=2000s, 7=Present
-const FRAME_TO_FILLED_BUCKET = [
-    -1, -1, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2,  // frames 0–11
-    3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 6,  // frames 12–23
-    6, 6, 7, 7, 7, 7, 7,                   // frames 24–30
-];
+// Frames, TIMELINE_CATEGORIES, and FRAME_TO_FILLED_BUCKET are defined in data/frames.js and config/timeline.js
 
 let currentFrame = -1;
 
@@ -74,6 +12,20 @@ $(document).ready(function () {
                 '<div class="frame-content frame-card-content">' +
                 img +
                 '<p class="frame-card-text">' + (f.body || '') + '</p>' +
+                '</div>' +
+                '</section>'
+            );
+        } else if (f.template === 'split') {
+            const leftContent = f.image
+                ? '<img class="frame-split-image" src="' + f.image + '" alt="">'
+                : '<div class="frame-split-placeholder">' + (f.placeholderText || 'Image placeholder') + '</div>';
+            $container.append(
+                '<section class="frame frame-split">' +
+                '<div class="frame-content frame-split-content">' +
+                '<div class="frame-split-left">' + leftContent + '</div>' +
+                '<div class="frame-split-right">' +
+                '<p class="frame-split-text">' + (f.body || '') + '</p>' +
+                '</div>' +
                 '</div>' +
                 '</section>'
             );
