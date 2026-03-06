@@ -49,6 +49,15 @@ body {
     color: #aaa;
 }
 
+/* ── Placeholder frame (default for frames without explicit template) ── */
+.frame-placeholder h1 {
+    font-size: var(--placeholder-title-font-size, 2.5rem);
+}
+
+.frame-placeholder p {
+    font-size: var(--placeholder-subtitle-font-size, 1.1rem);
+}
+
 /* ── Title slide (first frame) ── */
 .frame-title {
     background: #fff;
@@ -71,7 +80,7 @@ body {
 .frame-title-image {
     display: block;
     width: 100%;
-    height: 45vh;
+    height: var(--title-image-height, 45vh);
     object-fit: cover;
     object-position: center;
     flex-shrink: 0;
@@ -98,7 +107,7 @@ body {
 
 .frame-title .title-main {
     font-family: 'Libre Baskerville', serif;
-    font-size: 100px;
+    font-size: var(--title-font-size, 100px);
     margin: 0;
     color: #111;
     text-align: left;
@@ -106,7 +115,7 @@ body {
 
 .frame-title .title-subtitle {
     font-family: 'Libre Baskerville', serif;
-    font-size: clamp(1.3rem, 3.5vw, 1.75rem);
+    font-size: var(--title-subtitle-font-size, clamp(1.3rem, 3.5vw, 1.75rem));
     font-weight: normal;
     margin: 0;
     color: #333;
@@ -115,7 +124,7 @@ body {
 
 .frame-title .title-attribution {
     font-family: 'Libre Baskerville', serif;
-    font-size: clamp(1.3rem, 3.5vw, 1.75rem);
+    font-size: var(--title-attribution-font-size, clamp(1.3rem, 3.5vw, 1.75rem));
     color: #666;
     margin: 0;
     text-align: right;
@@ -147,16 +156,16 @@ body {
     display: block;
     width: 100%;
     flex: 1;
-    min-height: 55vh;
+    min-height: var(--card-image-min-height, 55vh);
     object-fit: cover;
     object-position: center;
 }
 
 .frame-card-text {
     margin: 0;
-    padding: 1.75rem 2rem;
+    padding: var(--card-text-padding, 1.75rem 2rem);
     font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-    font-size: 1.15rem;
+    font-size: var(--card-text-font-size, 1.15rem);
     line-height: 1.65;
     color: #333;
 }
@@ -182,7 +191,7 @@ body {
 }
 
 .frame-split-left {
-    flex: 0 0 60%;
+    flex: 0 0 var(--split-image-width, 60%);
     min-height: 0;
     display: flex;
     align-items: center;
@@ -193,7 +202,7 @@ body {
 .frame-split-image {
     width: 100%;
     height: 100%;
-    min-height: 60vh;
+    min-height: var(--split-image-min-height, 60vh);
     object-fit: cover;
     object-position: center;
 }
@@ -201,14 +210,14 @@ body {
 .frame-split-placeholder {
     width: 100%;
     height: 100%;
-    min-height: 60vh;
+    min-height: var(--split-image-min-height, 60vh);
     display: flex;
     align-items: center;
     justify-content: center;
     background: #f5b85d;
     color: #333;
     font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-    font-size: 0.95rem;
+    font-size: var(--split-placeholder-font-size, 0.95rem);
     line-height: 1.5;
     padding: 2rem;
     text-align: center;
@@ -216,7 +225,7 @@ body {
 }
 
 .frame-split-right {
-    flex: 0 0 40%;
+    flex: 0 0 var(--split-text-width, 40%);
     display: flex;
     align-items: center;
     padding: 2rem 2.5rem;
@@ -226,7 +235,7 @@ body {
 .frame-split p.frame-split-text {
     margin: 0;
     font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-    font-size: 2.5rem;
+    font-size: var(--split-text-font-size, 2.5rem);
     line-height: 1.65;
     color: #111;
 }
