@@ -185,5 +185,17 @@ const frames = [
   title: "But what if we removed some of these barriers?"
 },
 
+{
+  template: "card",
+  title: " What if systematic theft events such as the Tulsa Race Massacre did not happen to Black families? ", 
+  body: `Events similar to the Tulsa Race Massacre occurred across the United States and often resulted in the destruction of Black wealth and communities. The Wilmington Massacre of 1898 in North Carolina, the Atlanta Race Massacre of 1906 in Georgia, the Elaine Massacre in Arkansas, and the Rosewood Massacre in Florida involved violent attacks on Black residents that destroyed homes, businesses, and local institutions. These events forced many Black families to flee their communities, leading to the loss of land, property, and long-term economic opportunity.`
+},
+
+{
+  template: "card",
+  title: " question toggle ", 
+  body: `hi`
+},
+
 
 ];
