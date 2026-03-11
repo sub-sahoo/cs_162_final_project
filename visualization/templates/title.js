@@ -2,9 +2,9 @@ var TitleTemplate = {
     getDefaultCSS: function () {
         return {
             imageHeight: '45vh',
-            titleFontSize: '100px',
+            titleFontSize: 'clamp(2.3rem, 8.5vw, 6.2rem)',
             subtitleFontSize: 'clamp(1.3rem, 3.5vw, 1.75rem)',
-            attributionFontSize: 'clamp(1.3rem, 3.5vw, 1.75rem)',
+            attributionFontSize: 'clamp(1.05rem, 2.4vw, 1.4rem)',
         };
     },
 

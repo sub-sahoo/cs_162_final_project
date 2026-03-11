@@ -7,25 +7,27 @@ const frames = [
     image: "assets/frame1.png"
   },
   {
-    template: "card",
-    image: "assets/frame2.png",
-    body: "Wartime Order No. 15 was proclaimed by Union general William Sherman in 1865 during the American Civil War, to allot 400,000 acres to 18,000 formerly enslaved families in parcels of at most 40 acres of land. This land was across Georgia, South Carolina, and Florida. The promise was reversed by President Johnson."
-  },
+    template: "split",
+    image: "assets/frame2.png", 
+    title: "What is the 40 acres and a mule promise?",
+    subtitle: "Wartime Order No. 15 was proclaimed by Union general William Sherman in 1865 during the American Civil War, to allot 400,000 acres to 18,000 formerly enslaved families in parcels of at most 40 acres of land. This land was across Georgia, South Carolina, and Florida. The promise was reversed by President Johnson.", 
+    body: "400,000 acres is 1.3x larger than the city of Los Angeles."
+  }, 
   {
     template: "split",
-    title: "Present Day",
-    // image: 'assets/placeholder.png',
-    placeholderText: "wage graph today between black and white families",
-    body: "Black families make $0.15 cents for every $1 dollar a White family earns. How did we get here?"
+    title: "The Current Situation",
+    image: "assets/present_day.png",
+    body: "In 2022, Black families make $0.15 cents for every $1 dollar a White family earns. This is indicative of strong barriers to generational wealth."
   },
   {
     template: "card",
-    title: "What if this promise was kept?",
-    body: "We will model 18,000 black families and 18,000 white families in South Carolina through time and their respective wealth channels in our scenario of 40 acres and a mule compared to what happened in our history."
+    title: "What if this 40 acre promise was kept to Black families?",
+    body: "We will model 18,000 Black families and 18,000 white families in South Carolina over time, tracking their respective wealth trajectories under a “40 acres and a mule” scenario compared to what actually occurred in history. We will simulate an initial land grant of 40 acres to each family and track changes in net worth over time through wealth channels such as income, savings, and investments, as well as economic opportunities including access to loans and exposure to large-scale economic shocks."
   },
   {
     template: "card",
     title: "1865",
+    subtitle: "What actually happened", 
     body: `
 <p><u>Reconstruction policies</u>: Freedmen briefly gained political representation and some economic opportunities, but land redistribution largely failed.</p>
 
@@ -35,33 +37,23 @@ const frames = [
   {
     template: "card",
     image: "assets/frame6.png",
-    body: "During this time in our history: Black wages remain extremely low and unstable. Wealth accumulation is nearly impossible, and the wealth gap solidifies early.",
+    body: "During this time in history: Black wages remain extremely low and unstable. Wealth accumulation is nearly impossible, and the wealth gap solidifies early.",
     wage: 1
   },
   {
     template: "card",
     image: "assets/frame7.png",
-    body: "In our scenario, land ownership prevents dependence on sharecropping. Early wealth accumulation begins, and the Black wealth line rises modestly instead of remaining flat.",
+    subtitle: "Our Simulation", 
+    body: ` <p> In our scenario, land ownership prevents dependence on sharecropping. Early wealth accumulation begins, and the Black wealth line rises.  <\p>
+    
+    Although Black families are starting off with 40 acres, the average white family at this time started off with much more land. White families were the main beneficiaries of policies such as the Homestead Act of 1862, which granted up to 160 acres of public land to settlers.`, 
     wage: 1
   },
   {
     template: "card",
     image: "assets/frame8.png",
-    body: `
-Simulation Statistics:
-
-<b>White Families</b>
-<ul>
-<li> Starting Acres: 230 </li>
-<li> Loan Rate: 10%</li>
-<li> Investment Exposure:</li>
-</ul>
-<b>Black Families</b>
-<ul>
-<li> Starting Acres: 40 </li>
-<li> Loan Rate: 2%</li>
-<li> Investment Exposure:</li> 
-</ul>`, //TODO: add investment exposure stat
+    statsYear: 1880,
+    body: `<p class="model-stats-loading">Loading simulation statistics...</p>`,
     wage: 1
   },
   {
@@ -70,7 +62,7 @@ Simulation Statistics:
     body: `
 <p><u>Great Migration</u>: Over 6 million Black Americans move from the rural South to the North and West seeking industrial jobs and higher wages.</p>
 
-<p><u>Tulsa Race Massacre and racial violence</u>: The Tulsa Race Massacre was when, in June 1921, mobs of white supremacist terrorists attacked black residents of Tulsa, Oklahoma, and destroyed homes and businesses in the wealthiest black community in the US at the time.</p>
+<p><u>Tulsa Race Massacre and racial violence</u>: The Tulsa Race Massacre was when, in June 1921, mobs of white supremacist terrorists attacked black residents of Tulsa, Oklahoma, and destroyed homes and businesses in the wealthiest black community in the US at the time. This massacre was a direct attack on Black wealth. Our simulation takes into account that black families are more likely to be subject to economic shocks like these than white families. </p>
 `
   },
   {
@@ -88,21 +80,8 @@ Simulation Statistics:
   {
     template: "card",
     image: "assets/frame12.png",
-    body: `
-Simulation Statistics:
-
-<b>White Families</b>
-<ul>
-<li> Starting Acres: 230 </li>
-<li> Loan Rate: 10%</li>
-<li> Investment Exposure:</li>
-</ul>
-<b>Black Families</b>
-<ul>
-<li> Starting Acres: 40 </li>
-<li> Loan Rate: 2%</li>
-<li> Investment Exposure:</li> 
-</ul>`, //TODO: add investment exposure stat
+    statsYear: 1920,
+    body: `<p class="model-stats-loading">Loading simulation statistics...</p>`,
     wage: 1
   },
   {
@@ -122,28 +101,9 @@ Simulation Statistics:
   },
   {
     template: "card",
-    image: "assets/frame15.png",
-    body: "In our scenario: land is a shock absorber, families could grow food so less starvation and eviction vulnerability. Less severe drop in wage for black families and recovery begins slightly earlier.",
-    wage: 1
-  },
-  {
-    template: "card",
     image: "assets/frame16.png",
-    body: `
-Simulation Statistics:
-
-<b>White Families</b>
-<ul>
-<li> Starting Acres: 230 </li>
-<li> Loan Rate: 10%</li>
-<li> Investment Exposure:</li>
-</ul>
-<b>Black Families</b>
-<ul>
-<li> Starting Acres: 40 </li>
-<li> Loan Rate: 2%</li>
-<li> Investment Exposure:</li> 
-</ul>`, //TODO: add investment exposure stat
+    statsYear: 1940,
+    body: `<p class="model-stats-loading">Loading simulation statistics...</p>`,
     wage: 1
   },
   {
@@ -163,28 +123,9 @@ Simulation Statistics:
   },
   {
     template: "card",
-    image: "assets/frame19.png",
-    body: "In our scenario: black families have higher baseline wealth entering 1950 as land is passed down or leveraged for credit. Some families become farmers, landlords, small manufacturers. Better access to education & relocation land equity means college tuition or business startup capital.",
-    wage: 1
-  },
-  {
-    template: "card",
     image: "assets/frame20.png",
-    body: `
-Simulation Statistics:
-
-<b>White Families</b>
-<ul>
-<li> Starting Acres: 230 </li>
-<li> Loan Rate: 10%</li>
-<li> Investment Exposure:</li>
-</ul>
-<b>Black Families</b>
-<ul>
-<li> Starting Acres: 40 </li>
-<li> Loan Rate: 2%</li>
-<li> Investment Exposure:</li> 
-</ul>`, //TODO: add investment exposure stat
+    statsYear: 1960,
+    body: `<p class="model-stats-loading">Loading simulation statistics...</p>`,
     wage: 1
   },
   {
@@ -205,7 +146,7 @@ Simulation Statistics:
   {
     template: "card",
     image: "assets/frame23.png",
-    body: "In our scenario: Families with diversified assets and inherited land equity are more resilient. The Black wage line dips but not as severely, and wealth continues compounding through alternative investments",
+    body: "At this point in time, Black families who received the 40-acre land grant are at the same net worth as Black families who did not receive the grant.",
     wage: 1
   },
   {
@@ -216,13 +157,45 @@ Simulation Statistics:
 
 <p><u>2008 Housing Crash</u>: Massive home equity losses hit Black households harder, erasing significant portions of accumulated wealth.
 </p>
+`},
+{
+  template: "card",
+  title: "Present Day (2000 - 2026)",
+  body: `Giving every Black family 40 acres of land might have helped bridge some wealth gaps and improve access to economic opportunity initially, but it would not have been enough to eliminate the deeply rooted barriers to success. Large-scale economic shocks, similar to the destruction of Greenwood during the Tulsa race massacre, which devastated what was often called “Black Wall Street,” wiped out generations of accumulated wealth in a matter of days.
 `
-  },
-  { title: "Frame 25", wage: 1 },
-  { title: "Frame 26", wage: 1 },
-  { title: "Frame 27", wage: 1 },
-  { title: "Frame 28", wage: 1 },
-  { title: "Frame 29", wage: 1 },
-  { title: "Frame 30", wage: 1 },
-  { title: "Frame 31", wage: 1 }
+},
+{
+  template: "card",
+  body: `Beyond outright violence, systemic barriers continued to limit economic mobility. Discriminatory practices like redlining restricted where Black families could live and invest, cutting them off from appreciating property values and access to credit. Limited access to traditional banking, exclusion from investment markets, employment discrimination, and unequal educational opportunities further compounded these disadvantages over time.
+`
+},
+
+//after this, hide the chart again to focus on the conclusions
+
+{
+  template: "card",
+  hideViz: true,
+  body: `Together, these factors illustrate that while land redistribution could have provided an important foundation, if the structural racism embedded in financial, legal, and social systems had remained unchanged, it would have continued to pose significant obstacles to long-term economic equity, even with the initial land grant.
+`
+},
+
+{
+  template: "card",
+  hideViz: true,
+  title: "But what if we removed some of these barriers?"
+},
+
+{
+  template: "card",
+  subtitle: " What if systematic theft events such as the Tulsa Race Massacre did not happen to Black families? ", 
+  body: `Events similar to the Tulsa Race Massacre occurred across the United States and often resulted in the destruction of Black wealth and communities. The Wilmington Massacre of 1898 in North Carolina, the Atlanta Race Massacre of 1906 in Georgia, the Elaine Massacre in Arkansas, and the Rosewood Massacre in Florida involved violent attacks on Black residents that destroyed homes, businesses, and local institutions. These events forced many Black families to flee their communities, leading to the loss of land, property, and long-term economic opportunity.`
+},
+
+{
+  template: "card",
+  subtitle: " question toggle ", 
+  body: `hi`
+},
+
+
 ];

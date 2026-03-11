@@ -3,7 +3,7 @@ var SplitTemplate = {
         return {
             imageWidth: '60%',
             textWidth: '40%',
-            textFontSize: '2.5rem',
+            textFontSize: '1.35rem',
             placeholderFontSize: '0.95rem',
             imageMinHeight: '60vh',
         };
@@ -22,12 +22,18 @@ var SplitTemplate = {
         var leftContent = frameData.image
             ? '<img class="frame-split-image" src="' + frameData.image + '" alt="">'
             : '<div class="frame-split-placeholder">' + (frameData.placeholderText || 'Image placeholder') + '</div>';
+        var title = frameData.title
+            ? '<h2 class="frame-split-title">' + frameData.title + '</h2>'
+            : '';
+        var subtitle = frameData.subtitle
+            ? '<p class="frame-split-subtitle">' + frameData.subtitle + '</p>'
+            : '';
         return (
             '<section class="frame frame-split" style="' + style + '">' +
             '<div class="frame-content frame-split-content">' +
             '<div class="frame-split-left">' + leftContent + '</div>' +
             '<div class="frame-split-right">' +
-            '<p class="frame-split-text">' + (frameData.body || '') + '</p>' +
+            '<div class="frame-split-text">' + title + subtitle + (frameData.body || '') + '</div>' +
             '</div>' +
             '</div>' +
             '</section>'
