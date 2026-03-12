@@ -9,8 +9,27 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
     <link rel="stylesheet" type="text/css" href="style.css" />
+
   </head>
   <body>
+    <script src="env.js"></script>
+    <script>
+      (function () {
+        if (typeof RUNTIME_ENV === 'string' && RUNTIME_ENV === 'development') {
+          document.body.classList.add('dev');
+        } else {
+          fetch('.env')
+            .then(function (r) { return r.ok ? r.text() : ''; })
+            .then(function (text) {
+              var match = text.match(/RUNTIME_ENV\s*=\s*"?(\w+)"?/);
+              if (match && match[1] === 'development') {
+                document.body.classList.add('dev');
+              }
+            })
+            .catch(function () {});
+        }
+      })();
+    </script>
 
     <div id="frames"></div>
     <script src="data/frames.js"></script>

@@ -1,0 +1,4 @@
+{
+  "buildCommand": "echo \"var RUNTIME_ENV = '${RUNTIME_ENV:-production}';\" > visualization/env.js",
+  "outputDirectory": "visualization"
+}
