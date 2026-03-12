@@ -20,10 +20,14 @@ var TitleTemplate = {
         var img = frameData.image
             ? '<img class="frame-title-image" src="' + frameData.image + '" alt="">'
             : '';
+        var imageCaption = frameData.imageCaption
+            ? '<p class="frame-title-image-caption">' + frameData.imageCaption + '</p>'
+            : '';
         return (
             '<section class="frame frame-title" style="' + style + '">' +
             '<div class="frame-content frame-title-content">' +
             img +
+            imageCaption +
             '<div class="frame-title-text">' +
             '<div class="frame-title-left">' +
             '<h1 class="title-main">' + (frameData.title || '') + '</h1>' +
