@@ -9,8 +9,15 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
     <link rel="stylesheet" type="text/css" href="style.css" />
+
   </head>
   <body>
+    <script src="env.js"></script>
+    <script>
+      if (typeof RUNTIME_ENV === 'string' && RUNTIME_ENV === 'development') {
+        document.body.classList.add('dev');
+      }
+    </script>
 
     <div id="frames"></div>
     <script src="data/frames.js"></script>
@@ -21,6 +28,15 @@
     <script src="templates/card.js"></script>
     <script src="templates/split.js"></script>
     <script src="templates/placeholder.js"></script>
+    <script src="templates/toggle.js"></script>
+    <script src="lib/utils.js"></script>
+    <script src="lib/simulation.js"></script>
+    <script src="lib/chart.js"></script>
+    <script src="lib/frames.js"></script>
+    <script src="lib/viz-state.js"></script>
+    <script src="lib/viz-visibility.js"></script>
+    <script src="lib/timeline.js"></script>
+    <script src="lib/model-stats.js"></script>
     <script src="sketch.js"></script>
   </body>
 </html>
