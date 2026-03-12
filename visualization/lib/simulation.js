@@ -1,6 +1,14 @@
 var Simulation = (function () {
     var SIMULATION_CSV_PATH = 'data/final_simulation_mean_results.csv';
+    var SIMULATION_CSV_BY_FACTOR = {
+        NE: 'data/final_simulation_mean_results_NE.csv',
+        TE: 'data/final_simulation_mean_results_TE.csv',
+        SE: 'data/final_simulation_mean_results_SE.csv',
+        IE: 'data/final_simulation_mean_results_IE.csv',
+        AE: 'data/final_simulation_mean_results_AE.csv',
+    };
     var series = [];
+    var seriesByFactor = {};
 
     function parseCsv(csvText) {
         var trimmed = csvText.trim();
@@ -39,28 +47,51 @@ var Simulation = (function () {
         return parsedRows;
     }
 
-    function load() {
-        return fetch(SIMULATION_CSV_PATH, { cache: 'no-store' })
-            .then(function (response) {
-                if (!response.ok) {
-                    throw new Error('HTTP ' + response.status + ' for ' + SIMULATION_CSV_PATH);
-                }
-                return response.text();
+    function processSeries(parsed) {
+        return parsed
+            .filter(function (row) {
+                return Number.isFinite(row.year);
             })
-            .then(function (csvText) {
-                series = parseCsv(csvText)
-                    .filter(function (row) {
-                        return Number.isFinite(row.year);
-                    })
-                    .sort(function (a, b) {
-                        return a.year - b.year;
-                    });
+            .sort(function (a, b) {
+                return a.year - b.year;
+            });
+    }
+
+    function load() {
+        var factorKeys = Object.keys(SIMULATION_CSV_BY_FACTOR);
+
+        var promises = factorKeys.map(function (key) {
+            var path = SIMULATION_CSV_BY_FACTOR[key];
+            return fetch(path, { cache: 'no-store' })
+                .then(function (response) {
+                    if (!response.ok) {
+                        throw new Error('HTTP ' + response.status + ' for ' + path);
+                    }
+                    return response.text();
+                });
+        });
+
+        return Promise.all(promises)
+            .then(function (results) {
+                factorKeys.forEach(function (key, idx) {
+                    seriesByFactor[key] = processSeries(parseCsv(results[idx]));
+                });
+                series = seriesByFactor.NE || seriesByFactor[factorKeys[0]];
+
                 return series;
             });
     }
 
     function getSeries() {
         return series;
+    }
+
+    function getSeriesForFactor(factorKey) {
+        return seriesByFactor[factorKey] || series;
+    }
+
+    function getAllFactorKeys() {
+        return Object.keys(SIMULATION_CSV_BY_FACTOR);
     }
 
     function getNearestRowForYear(targetYear) {
@@ -82,6 +113,8 @@ var Simulation = (function () {
     return {
         load: load,
         getSeries: getSeries,
+        getSeriesForFactor: getSeriesForFactor,
+        getAllFactorKeys: getAllFactorKeys,
         getNearestRowForYear: getNearestRowForYear,
     };
 })();

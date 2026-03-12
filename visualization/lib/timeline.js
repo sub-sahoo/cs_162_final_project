@@ -15,15 +15,6 @@ var Timeline = (function () {
         var seriesConfig = Chart.getDefaultSeries();
         var dims = Chart.getChartDimensions();
 
-        var legendHtml = seriesConfig.map(function (series) {
-            return (
-                '<span class="viz-legend-item">' +
-                '<span class="viz-legend-dot" style="background:' + series.color + ';"></span>' +
-                series.label +
-                '</span>'
-            );
-        }).join('');
-
         var panelHtml =
             '<aside id="viz-panel" aria-label="Simulation line graph">' +
             '<div class="viz-panel-content">' +
@@ -31,7 +22,7 @@ var Timeline = (function () {
             '<p id="viz-era-title" class="viz-era-title"></p>' +
             '<h2 class="viz-title">Wealth Trajectory Over Time</h2>' +
             '<svg id="viz-chart" viewBox="0 0 ' + dims.width + ' ' + dims.height + '" preserveAspectRatio="xMidYMid meet"></svg>' +
-            '<div class="viz-legend">' + legendHtml + '</div>' +
+            '<div id="viz-legend" class="viz-legend"></div>' +
             '<p id="viz-year-readout" class="viz-year-readout"></p>' +
             '</div>' +
             '</aside>';
@@ -55,11 +46,17 @@ var Timeline = (function () {
         $('#viz-year-readout').text(text);
     }
 
+    function updateVizLegend(seriesConfig) {
+        var html = Chart.buildLegendHtml(seriesConfig);
+        $('#viz-legend').html(html);
+    }
+
     return {
         buildTimeline: buildTimeline,
         buildVizPanel: buildVizPanel,
         updateTimelineFill: updateTimelineFill,
         updateVizEraTitle: updateVizEraTitle,
         updateVizYearReadout: updateVizYearReadout,
+        updateVizLegend: updateVizLegend,
     };
 })();

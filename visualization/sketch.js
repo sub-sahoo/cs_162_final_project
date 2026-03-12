@@ -1,3 +1,5 @@
+var ToggleState = {};
+
 $(document).ready(function () {
     prepareVisualizationState();
     renderStoryFrames();
@@ -8,6 +10,7 @@ $(document).ready(function () {
 
     bindScrollAndResize();
     bindKeyboardNavigation();
+    bindToggleButtons();
 
     loadSimulationDataAndPopulate();
 });
@@ -69,8 +72,9 @@ function updateActiveFrame(newIndex) {
 
     updateChartForFrame(newIndex);
 
-    if (prevIndex >= 0) onFrameLeave(prevIndex);
-    onFrameEnter(newIndex);
+    if (prevIndex >= 0 && typeof onFrameLeave === 'function') onFrameLeave(prevIndex);
+    if (typeof onFrameEnter === 'function') onFrameEnter(newIndex);
+    syncToggleButtonsForFrame(newIndex);
 }
 
 function updateChartForFrame(frameIndex) {
@@ -79,16 +83,53 @@ function updateChartForFrame(frameIndex) {
 
     if (!shouldShow) return;
 
-    var eraTitle = VizState.getDateTitleForFrame(frameIndex);
-    Timeline.updateVizEraTitle(eraTitle);
-
+    var frameData = frames[frameIndex] || {};
     var seriesData = Simulation.getSeries();
     if (!seriesData || !seriesData.length) return;
 
     var targetYear = VizState.getTargetYearForFrame(frameIndex, seriesData);
-    Chart.renderLineChart(seriesData, targetYear);
 
-    Timeline.updateVizYearReadout('Visible data through ' + targetYear + ' (log scale, from final_simulation_mean_results.csv)');
+    if (frameData.template === 'toggle' && frameData.factorKey) {
+        var factorKey = frameData.factorKey;
+        var baselineData = Simulation.getSeriesForFactor('NE');
+        var factorData = Simulation.getSeriesForFactor(factorKey);
+        if (!baselineData.length || !factorData.length) return;
+
+        targetYear = seriesData[seriesData.length - 1].year;
+
+        var showFactorAsPrimary = (ToggleState[frameIndex] !== 'actual');
+        var factorLabel = frameData.toggleOptionA || factorKey;
+        var baselineLabel = frameData.toggleOptionB || 'Actual';
+
+        var baselineRows = baselineData.filter(function (r) { return r.year <= targetYear; });
+        var factorRows = factorData.filter(function (r) { return r.year <= targetYear; });
+
+        var comparisonSeries = [
+            { key: 'Mean_White_Wealth', label: 'White families', color: '#0f172a', rows: baselineRows },
+            showFactorAsPrimary
+                ? [
+                    { key: 'Mean_Black_40_Wealth', label: factorLabel, color: '#0f766e', rows: factorRows },
+                    { key: 'Mean_Black_40_Wealth', label: baselineLabel, color: '#64748b', rows: baselineRows, strokeDasharray: '8 4' },
+                ]
+                : [
+                    { key: 'Mean_Black_40_Wealth', label: baselineLabel, color: '#b91c1c', rows: baselineRows },
+                    { key: 'Mean_Black_40_Wealth', label: factorLabel, color: '#64748b', rows: factorRows, strokeDasharray: '8 4' },
+                ],
+        ].flat();
+
+        Chart.renderLineChart(seriesData, targetYear, {
+            series: comparisonSeries,
+            comparisonRows: factorData,
+        });
+        Timeline.updateVizLegend(comparisonSeries);
+    } else {
+        Chart.renderLineChart(seriesData, targetYear);
+        Timeline.updateVizLegend(Chart.getDefaultSeries());
+    }
+
+    var eraTitle = VizState.getDateTitleForFrame(frameIndex);
+    Timeline.updateVizEraTitle(eraTitle);
+    Timeline.updateVizYearReadout('Visible data through ' + targetYear + ' (log scale)');
 }
 
 /* ── Event Handlers ── */
@@ -110,6 +151,36 @@ function bindKeyboardNavigation() {
             Frames.scrollToFrame(Math.max(Frames.getCurrentFrameIndex() - 1, 0));
         }
     });
+}
+
+function bindToggleButtons() {
+    $(document).on('click', '.frame-toggle-btn', function () {
+        var $btn = $(this);
+        var $frame = $btn.closest('.frame');
+        var frameIndex = parseInt($frame.attr('data-frame-index'), 10);
+        var value = $btn.attr('data-value');
+
+        if (isNaN(frameIndex) || !value) return;
+
+        ToggleState[frameIndex] = value;
+
+        $frame.find('.frame-toggle-btn').attr('aria-pressed', 'false');
+        $btn.attr('aria-pressed', 'true');
+
+        if (Frames.getCurrentFrameIndex() === frameIndex) {
+            updateChartForFrame(frameIndex);
+        }
+    });
+}
+
+function syncToggleButtonsForFrame(frameIndex) {
+    var frameData = frames[frameIndex];
+    if (frameData && frameData.template === 'toggle') {
+        var value = ToggleState[frameIndex] || 'factor';
+        var $frame = $('.frame').eq(frameIndex);
+        $frame.find('.frame-toggle-btn').attr('aria-pressed', 'false');
+        $frame.find('.frame-toggle-btn[data-value="' + value + '"]').attr('aria-pressed', 'true');
+    }
 }
 
 /* ── Load Data ── */

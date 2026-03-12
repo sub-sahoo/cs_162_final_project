@@ -47,9 +47,13 @@ var Chart = (function () {
 
         if (!rows.length) return;
 
+        var allRowsForMax = seriesData;
+        if (options && options.comparisonRows) {
+            allRowsForMax = seriesData.concat(options.comparisonRows);
+        }
         var maxY = Math.max(
             1,
-            Math.max.apply(null, seriesData.map(function (row) {
+            Math.max.apply(null, allRowsForMax.map(function (row) {
                 return Math.max(
                     row.Mean_White_Wealth || 0,
                     row.Mean_Black_Wealth || 0,
@@ -127,14 +131,17 @@ var Chart = (function () {
             '<line class="viz-axis" x1="' + padding.left + '" y1="' + padding.top + '" x2="' + padding.left + '" y2="' + (chartHeight - padding.bottom) + '"></line>';
 
         seriesConfig.forEach(function (s) {
-            var linePath = buildLinePath(rows, s.key, xScale, yScale);
+            var seriesRows = (s.rows !== undefined) ? s.rows.filter(function (r) { return r.year <= targetYear; }) : rows;
+            var linePath = buildLinePath(seriesRows, s.key, xScale, yScale);
             if (!linePath) return;
             var dashAttr = s.strokeDasharray ? ' stroke-dasharray="' + s.strokeDasharray + '"' : '';
             chartMarkup += '<path class="viz-series-line" d="' + linePath + '" stroke="' + s.color + '"' + dashAttr + '></path>';
         });
 
-        var finalRow = rows[rows.length - 1];
         seriesConfig.forEach(function (s) {
+            var seriesRows = (s.rows !== undefined) ? s.rows.filter(function (r) { return r.year <= targetYear; }) : rows;
+            if (!seriesRows.length) return;
+            var finalRow = seriesRows[seriesRows.length - 1];
             var value = finalRow[s.key];
             var x = xScale(finalRow.year);
             var y = yScale(value);
@@ -152,9 +159,23 @@ var Chart = (function () {
         return DEFAULT_SERIES;
     }
 
+    function buildLegendHtml(seriesConfig) {
+        var config = seriesConfig || DEFAULT_SERIES;
+        return config.map(function (s) {
+            var dashHint = s.strokeDasharray ? ' <span class="viz-legend-dash">(dashed)</span>' : '';
+            return (
+                '<span class="viz-legend-item">' +
+                '<span class="viz-legend-dot" style="background:' + s.color + ';"></span>' +
+                s.label + dashHint +
+                '</span>'
+            );
+        }).join('');
+    }
+
     return {
         renderLineChart: renderLineChart,
         getChartDimensions: getChartDimensions,
         getDefaultSeries: getDefaultSeries,
+        buildLegendHtml: buildLegendHtml,
     };
 })();

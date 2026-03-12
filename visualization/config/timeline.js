@@ -13,5 +13,5 @@ const TIMELINE_CATEGORIES = [
 const FRAME_TO_FILLED_BUCKET = [
     -1, -1, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2,  // frames 0–12
     3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 6,       // frames 13–24
-    6, 6, 7, 7, 7, 7, 7,                      // frames 25–31
+    6, 6, 7, 7, 7, 7, 7, 7, 7, 7, 7,           // frames 25–35 (toggle frames 30–33)
 ];
