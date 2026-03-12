@@ -18,7 +18,6 @@ var Timeline = (function () {
         var panelHtml =
             '<aside id="viz-panel" aria-label="Simulation line graph">' +
             '<div class="viz-panel-content">' +
-            '<p class="viz-kicker">Final simulation mean CSV</p>' +
             '<p id="viz-era-title" class="viz-era-title"></p>' +
             '<h2 class="viz-title">Wealth Trajectory Over Time</h2>' +
             '<svg id="viz-chart" viewBox="0 0 ' + dims.width + ' ' + dims.height + '" preserveAspectRatio="xMidYMid meet"></svg>' +

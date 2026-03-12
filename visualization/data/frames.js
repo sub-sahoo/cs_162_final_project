@@ -4,7 +4,8 @@ const frames = [
     title: "40 acres and a mule",
     subtitle: "A promise to black families left unkempt.",
     attribution: "A data story by Sub, Maddy, Pearl, and Sayuj",
-    image: "assets/frame1.png"
+    image: "assets/frame1.png",
+    imageCaption: "The Old Plantation (ca. 1785–1790)"
   },
   {
     template: "split",
@@ -173,7 +174,7 @@ const frames = [
   },
   {
     template: "card",
-    title: "Present Day (2000 - 2026)",
+    title: "Present Day",
     body: `
     <p>Giving every Black family 40 acres of land might have helped bridge some wealth gaps and improve access to economic opportunity in the early years after emancipation. However, it would not have been enough to eliminate the deeply rooted barriers to economic success.</p>
 
@@ -213,41 +214,33 @@ const frames = [
   },
 
   {
-    template: "card",
-    subtitle:
-      "What if systematic theft events such as the Tulsa Race Massacre did not happen to Black families? ",
-    body: `
-    <p>Events similar to the Tulsa Race Massacre occurred across the United States and often resulted in the destruction of Black wealth and communities.</p>
-
-    <p>The Wilmington Massacre of 1898 in North Carolina, the Atlanta Race Massacre of 1906 in Georgia, the Elaine Massacre in Arkansas, and the Rosewood Massacre in Florida involved violent attacks on Black residents that destroyed homes, businesses, and local institutions.</p>
-    
-    <p>These events forced many Black families to flee their communities, leading to the loss of land, property, and long term economic opportunity.</p>
-    
-    <p>In our next experiment, we explore how wealth trajectories might change if these large-scale wealth destruction events had not occurred.</p>
-    `
-  },
-  {
     template: "toggle",
     factorKey: "TE",
-    title:
-      "What if systematic theft events such as the Tulsa Race Massacre did not happen to Black families?",
+    subtitle:
+      "What if systematic theft events such as the Tulsa Race Massacre did not happen to Black families?", body: `
+    <p>The Wilmington Massacre of 1898 in North Carolina, the Atlanta Race Massacre of 1906 in Georgia, the Elaine Massacre in Arkansas, and the Rosewood Massacre in Florida involved violent attacks on Black residents that destroyed homes, businesses, and local institutions.</p>
+    
+    <p>Events like these forced many Black families to flee their communities, leading to the loss of land, property, and long term economic opportunity.</p>
+    `, 
     toggleOptionA: "Theft Equality",
     toggleOptionB: "Actual (with theft events)"
   },
   {
     template: "toggle",
     factorKey: "SE",
-    title:
+    subtitle:
       "How would wealth outcomes change if Black families had the same savings rate as white families and equal inclusion in Social Security?",
-    toggleOptionA: "Savings Equality",
+    body: "When Social Security was adopted in 1935, many Black workers were effectively excluded because the program initially left out occupations such as agricultural and domestic work, sectors where a large share of Black Americans were employed. This exclusion prevented many Black families from building retirement security and intergenerational wealth through the system for decades. As a result, Black families have historically had lower savings rates, influenced by lower average incomes, higher debt burdens, and reduced access to employer-sponsored retirement plans."
+    ,toggleOptionA: "Savings Equality",
     toggleOptionB: "Actual"
   },
   {
     template: "toggle",
     factorKey: "IE",
-    title:
+    subtitle:
       "What if Black families took home the same amount of income as white families?",
-    toggleOptionA: "Income Equality",
+    body: "On average, Black families have historically earned lower incomes than white families due to long-standing disparities in access to education, employment opportunities, and higher-paying occupations. Discriminatory practices in hiring, wage gaps, occupational segregation, and unequal access to networks and capital have contributed to persistent income differences between Black and white households.",
+      toggleOptionA: "Income Equality",
     toggleOptionB: "Actual"
   },
   {

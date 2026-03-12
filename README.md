@@ -42,3 +42,4 @@ Can add more to these if needed, but wanted to get a reasonable set produced fir
 | card       | imageMinHeight, textFontSize, textPadding |
 | split      | imageWidth, textWidth, textFontSize, placeholderFontSize, imageMinHeight |
 | placeholder| titleFontSize, subtitleFontSize |
+| toggle     | textFontSize, bodyFontSize, textPadding |
