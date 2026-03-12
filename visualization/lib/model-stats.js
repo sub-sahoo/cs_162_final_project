@@ -7,7 +7,7 @@ var ModelStats = (function () {
             '<li>Mean wealth: <strong>' + Utils.formatMoney(data.wealth) + '</strong></li>' +
             '<li>Mean land value: <strong>' + Utils.formatMoney(data.land) + '</strong></li>' +
             '<li>Mean investments: <strong>' + Utils.formatMoney(data.invest) + '</strong></li>' +
-            '<li>Mean income: <strong>' + Utils.formatMoney(data.income) + '</strong></li>' +
+            '<li>Mean income (per annum): <strong>' + Utils.formatMoney(data.income) + '</strong></li>' +
             '</ul>' +
             '</section>'
         );
@@ -28,19 +28,19 @@ var ModelStats = (function () {
                 wealth: row.Mean_White_Wealth,
                 land: row.Mean_White_Land,
                 invest: row.Mean_White_Invest,
-                income: row.Mean_White_Income,
+                income: row.Mean_White_Income / 0.05,
             }) +
             buildStatsGroup('Black Families (Actual)', {
                 wealth: row.Mean_Black_Wealth,
                 land: row.Mean_Black_Land,
                 invest: row.Mean_Black_Invest,
-                income: row.Mean_Black_Income,
+                income: row.Mean_Black_Income / 0.039,
             }) +
             buildStatsGroup('Black Families (40 Acres Scenario)', {
                 wealth: row.Mean_Black_40_Wealth,
                 land: row.Mean_Black_40_Land,
                 invest: row.Mean_Black_40_Invest,
-                income: row.Mean_Black_40_Income,
+                income: row.Mean_Black_40_Income / 0.039,
             }) +
             '</div>' +
             '<ul class="model-stats-summary">' +
