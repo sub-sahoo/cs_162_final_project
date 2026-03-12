@@ -63,13 +63,13 @@ function syncFrameFromScroll() {
 }
 
 function updateActiveFrame(newIndex) {
-    if (newIndex < 0 || newIndex >= frames.length) return;
+  if (newIndex < 0 || newIndex >= frames.length) return;
 
     var prevIndex = Frames.getCurrentFrameIndex();
     Frames.setCurrentFrameIndex(newIndex);
 
-    $('.frame').removeClass('active');
-    $('.frame').eq(newIndex).addClass('active');
+  $(".frame").removeClass("active");
+  $(".frame").eq(newIndex).addClass("active");
 
     var filledUpTo = FRAME_TO_FILLED_BUCKET[newIndex] ?? -1;
     Timeline.updateTimelineFill(filledUpTo);

@@ -1,12 +1,12 @@
 const TIMELINE_CATEGORIES = [
-    'Present',
-    '1865',
-    '1910s-20s',
-    '1930s-40s',
-    '1950s-60s',
-    '1970s-80s',
-    '2000s',
-    'Present',
+  "Present",
+  "1865",
+  "1910s-20s",
+  "1930s-40s",
+  "1950s-60s",
+  "1970s-80s",
+  "2000s",
+  "Present"
 ];
 
 const FRAME_TO_FILLED_BUCKET = [
