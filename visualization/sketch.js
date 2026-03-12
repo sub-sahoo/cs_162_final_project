@@ -1,4 +1,5 @@
 var ToggleState = {};
+var currentDataset = 'NE';
 
 $(document).ready(function () {
     prepareVisualizationState();
@@ -11,6 +12,7 @@ $(document).ready(function () {
     bindScrollAndResize();
     bindKeyboardNavigation();
     bindToggleButtons();
+    bindDatasetToggleButtons();
 
     loadSimulationDataAndPopulate();
 });
@@ -80,7 +82,14 @@ function updateActiveFrame(newIndex) {
 }
 
 function renderChartContent(frameIndex, frameData, seriesData, targetYear) {
-    if (frameData.template === 'toggle' && frameData.factorKey) {
+    if (frameData.datasetToggle) {
+        var datasetSeries = Simulation.getSeriesForFactor(currentDataset);
+        if (!datasetSeries || !datasetSeries.length) {
+            datasetSeries = seriesData;
+        }
+        Chart.renderLineChart(datasetSeries, targetYear);
+        Timeline.updateVizLegend(Chart.getDefaultSeries());
+    } else if (frameData.template === 'toggle' && frameData.factorKey) {
         var factorKey = frameData.factorKey;
         var baselineData = Simulation.getSeriesForFactor('NE');
         var factorData = Simulation.getSeriesForFactor(factorKey);
@@ -114,10 +123,18 @@ function renderChartContent(frameIndex, frameData, seriesData, targetYear) {
     }
 }
 
+function isDatasetToggleFrame(frameIndex) {
+    var frameData = frames[frameIndex] || {};
+    return frameData.datasetToggle === true;
+}
+
 function updateChartForFrame(frameIndex) {
     var baseShow = VizState.shouldShowChart(frameIndex);
     var shouldShow = VizVisibility.shouldShow(baseShow);
     $('body').toggleClass('show-viz', shouldShow);
+
+    var showDatasetToggle = isDatasetToggleFrame(frameIndex);
+    $('#viz-dataset-toggle').toggle(showDatasetToggle);
 
     if (!shouldShow) return;
 
@@ -127,6 +144,9 @@ function updateChartForFrame(frameIndex) {
 
     var targetYear = VizState.getTargetYearForFrame(frameIndex, seriesData);
     if (frameData.template === 'toggle' && frameData.factorKey) {
+        targetYear = seriesData[seriesData.length - 1].year;
+    }
+    if (frameData.datasetToggle) {
         targetYear = seriesData[seriesData.length - 1].year;
     }
 
@@ -185,6 +205,20 @@ function syncToggleButtonsForFrame(frameIndex) {
         $frame.find('.frame-toggle-btn').attr('aria-pressed', 'false');
         $frame.find('.frame-toggle-btn[data-value="' + value + '"]').attr('aria-pressed', 'true');
     }
+}
+
+function bindDatasetToggleButtons() {
+    $(document).on('click', '#viz-dataset-toggle button', function () {
+        var dataset = $(this).data('dataset');
+        if (dataset === currentDataset) return;
+
+        currentDataset = dataset;
+
+        $('#viz-dataset-toggle button').removeClass('active');
+        $(this).addClass('active');
+
+        updateChartForFrame(Frames.getCurrentFrameIndex());
+    });
 }
 
 /* ── Load Data ── */

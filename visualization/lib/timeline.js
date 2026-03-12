@@ -23,6 +23,13 @@ var Timeline = (function () {
             '<h2 class="viz-title">Wealth Trajectory Over Time</h2>' +
             '<svg id="viz-chart" viewBox="0 0 ' + dims.width + ' ' + dims.height + '" preserveAspectRatio="xMidYMid meet"></svg>' +
             '<div id="viz-legend" class="viz-legend"></div>' +
+            '<div id="viz-dataset-toggle" style="display:none;">' +
+            '<button data-dataset="NE" class="active">Baseline</button>' +
+            '<button data-dataset="TE">No Systematic Theft</button>' +
+            '<button data-dataset="SE">Equal Savings Access</button>' +
+            '<button data-dataset="IE">Equal Income</button>' +
+            '<button data-dataset="AE">All Barriers Removed</button>' +
+            '</div>' +
             '<p id="viz-year-readout" class="viz-year-readout"></p>' +
             '</div>' +
             '</aside>';
