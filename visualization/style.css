@@ -550,7 +550,7 @@ body.show-viz #viz-panel {
 #viz-chart {
   width: 100%;
   flex: 1;
-  min-height: 0;
+  min-height: 250px;
 }
 
 .viz-grid-line {
@@ -716,4 +716,44 @@ canvas {
   .timeline-bucket-label {
     font-size: 0.55rem;
   }
+}
+
+/* Data viz switching toggle */
+#viz-panel {
+  pointer-events: none;
+}
+
+#viz-panel button {
+  pointer-events: auto;
+}
+
+#viz-dataset-toggle {
+  margin-top: 14px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+#viz-dataset-toggle button {
+  padding: 6px 12px;
+  border-radius: 16px;
+  border: 1px solid #d0d0d0;
+  background: white;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+#viz-dataset-toggle button:hover {
+  background: #f3f3f3;
+}
+
+#viz-dataset-toggle button.active {
+  background: #0f172a;
+  color: white;
+  border-color: #0f172a;
+}
+
+#viz-chart {
+  transition: opacity 0.4s ease;
 }
