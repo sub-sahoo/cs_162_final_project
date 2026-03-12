@@ -31,6 +31,7 @@ const frames = [
     {
         template: "card",
         title: "1865",
+        statsYear: 1865,
         subtitle: "What actually happened",
         body: `
 <p><u>Reconstruction policies</u>: Freedmen briefly gained political representation and some economic opportunities, but land redistribution largely failed.</p>
@@ -52,12 +53,14 @@ const frames = [
         template: "card",
         image: "assets/frame8.png",
         statsYear: 1880,
+        showStats: true,
         body: `<p class="model-stats-loading">Loading simulation statistics...</p>`,
         wage: 1
     },
     {
         template: "card",
         title: "1910s-20s",
+        statsYear: 1910,
         body: `
 <p><u>Great Migration</u>: Over 6 million Black Americans move from the rural South to the North and West seeking industrial jobs and higher wages.</p>
 
@@ -77,12 +80,14 @@ const frames = [
         template: "card",
         image: "assets/frame12.png",
         statsYear: 1920,
+        showStats: true,
         body: `<p class="model-stats-loading">Loading simulation statistics...</p>`,
         wage: 1
     },
     {
         template: "card",
         title: "1930s-40s",
+        statsYear: 1930,
         body: `
 <p><u>Great Depression</u>: The collapse of agricultural prices and massive unemployment hit Black workers especially hard because they were overrepresented in low-wage farm and service jobs and were often the last hired, first fired.</p>
 <p><u>New Deal exclusions</u>: Many New Deal programs, including early Social Security and labor protections, excluded agricultural and domestic workers (jobs where Black Americans were overrepresented) limiting their access to unemployment insurance, pensions, and wage protections.</p>
@@ -94,11 +99,13 @@ const frames = [
         template: "card",
         image: "assets/frame16.png",
         statsYear: 1940,
+        showStats: true,
         body: `<p class="model-stats-loading">Loading simulation statistics...</p>`
     },
     {
         template: "card",
         title: "1950s-60s",
+        statsYear: 1950,
         body: `
 <p><u>Emmett Louis Till</u>: (July 25, 1941 - August 28, 1955) was an African-American boy who, at 14 years old, was abducted and lynched in Mississippi in 1955 after being accused of offending a white woman. His lynching exposed the violent enforcement of white supremacy, reinforcing social and economic terror that restricted mobility, business development, and investment in Black communities.</p>
 
@@ -111,11 +118,13 @@ const frames = [
         template: "card",
         image: "assets/frame20.png",
         statsYear: 1960,
+        showStats: true,
         body: `<p class="model-stats-loading">Loading simulation statistics...</p>`
     },
     {
         template: "card",
         title: "1970s-80s",
+        statsYear: 1970,
         body: `
 <p><u>Manufacturing decline</u>: Factory jobs disappear, especially in urban areas where Black workers were concentrated.</p>
 
@@ -132,6 +141,7 @@ const frames = [
     },
     {
         template: "card",
+        statsYear: 2000,
         title: "2000s",
         body: `
 <p><u>Subprime lending disparities</u>:Black homeowners are disproportionately targeted with high-risk mortgages.</p>

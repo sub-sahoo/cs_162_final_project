@@ -55,7 +55,7 @@ var ModelStats = (function () {
         if (!seriesData || !seriesData.length) return;
 
         frames.forEach(function (frameData, index) {
-            if (!Number.isFinite(frameData.statsYear)) return;
+            if (!frameData.showStats || !Number.isFinite(frameData.statsYear)) return;
 
             var row = Simulation.getNearestRowForYear(frameData.statsYear);
             if (!row) return;
@@ -71,7 +71,7 @@ var ModelStats = (function () {
 
     function populateError(message) {
         frames.forEach(function (frameData, index) {
-            if (!Number.isFinite(frameData.statsYear)) return;
+            if (!frameData.showStats || !Number.isFinite(frameData.statsYear)) return;
             var selector = '.frame[data-frame-index="' + index + '"] .frame-card-text';
             var $target = $(selector);
             if ($target.length) {

@@ -38,22 +38,80 @@ var VizState = (function () {
         return { plotStartFrameIndex: plotStartFrameIndex, visualizationFrameIndices: visualizationFrameIndices };
     }
 
+    function buildYearCheckpoints(seriesData) {
+        var firstYear = seriesData[0].year;
+        var lastYear = seriesData[seriesData.length - 1].year;
+        var checkpoints = [];
+
+        for (var i = 0; i < visualizationFrameIndices.length; i++) {
+            var fi = visualizationFrameIndices[i];
+            var frame = frames[fi];
+            if (frame && Number.isFinite(frame.statsYear)) {
+                checkpoints.push({ vizStep: i, year: frame.statsYear });
+            }
+        }
+
+        if (checkpoints.length === 0) {
+            return [
+                { vizStep: 0, year: firstYear },
+                { vizStep: visualizationFrameIndices.length - 1, year: lastYear },
+            ];
+        }
+
+        if (checkpoints[0].vizStep > 0) {
+            checkpoints.unshift({ vizStep: 0, year: firstYear });
+        }
+
+        var lastVizStep = visualizationFrameIndices.length - 1;
+        if (checkpoints[checkpoints.length - 1].vizStep < lastVizStep) {
+            checkpoints.push({ vizStep: lastVizStep, year: lastYear });
+        }
+
+        return checkpoints;
+    }
+
     function getTargetYearForFrame(frameIndex, seriesData) {
         if (!seriesData || !seriesData.length) return null;
 
-        var firstYear = seriesData[0].year;
-        var lastYear = seriesData[seriesData.length - 1].year;
         var clampedFrameIndex = Math.max(plotStartFrameIndex, frameIndex);
         var vizStepIndex = visualizationFrameIndices.indexOf(clampedFrameIndex);
 
-        var progress = 1;
-        if (vizStepIndex >= 0 && visualizationFrameIndices.length > 1) {
-            progress = vizStepIndex / (visualizationFrameIndices.length - 1);
-        } else if (frames.length - 1 > plotStartFrameIndex) {
-            progress = Math.min(1, Math.max(0, (clampedFrameIndex - plotStartFrameIndex) / (frames.length - 1 - plotStartFrameIndex)));
+        if (vizStepIndex < 0) {
+            for (var k = 0; k < visualizationFrameIndices.length; k++) {
+                if (visualizationFrameIndices[k] >= clampedFrameIndex) {
+                    vizStepIndex = k;
+                    break;
+                }
+            }
+            if (vizStepIndex < 0) vizStepIndex = visualizationFrameIndices.length - 1;
         }
 
-        return Math.round(firstYear + progress * (lastYear - firstYear));
+        var checkpoints = buildYearCheckpoints(seriesData);
+
+        var prev = checkpoints[0];
+        for (var i = 0; i < checkpoints.length; i++) {
+            if (checkpoints[i].vizStep <= vizStepIndex) {
+                prev = checkpoints[i];
+            } else {
+                break;
+            }
+        }
+
+        var next = checkpoints[checkpoints.length - 1];
+        for (var j = 0; j < checkpoints.length; j++) {
+            if (checkpoints[j].vizStep >= vizStepIndex) {
+                next = checkpoints[j];
+                break;
+            }
+        }
+
+        if (prev.vizStep === vizStepIndex) return prev.year;
+
+        var range = next.vizStep - prev.vizStep;
+        if (range <= 0) return prev.year;
+
+        var progress = (vizStepIndex - prev.vizStep) / range;
+        return Math.round(prev.year + progress * (next.year - prev.year));
     }
 
     function isDateLikeTitle(title) {
