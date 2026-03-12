@@ -1,6 +1,7 @@
 const frames = [
     {
         template: "title",
+        hideViz: true,
         title: "40 acres and a mule",
         subtitle: "A promise to black families left unkempt.",
         attribution: "A data story by Sub, Maddy, Pearl, and Sayuj",
@@ -8,6 +9,7 @@ const frames = [
     },
     {
         template: "split",
+        hideViz: true,
         image: "assets/frame2.png",
         title: "What is the 40 acres and a mule promise?",
         subtitle: "Wartime Order No. 15 was proclaimed by Union general William Sherman in 1865 during the American Civil War, to allot 400,000 acres to 18,000 formerly enslaved families in parcels of at most 40 acres of land. This land was across Georgia, South Carolina, and Florida. The promise was reversed by President Johnson.",
@@ -15,12 +17,14 @@ const frames = [
     },
     {
         template: "split",
+        hideViz: true,
         title: "The Current Situation",
         image: "assets/present_day.png",
         body: "In 2022, Black families make $0.15 cents for every $1 dollar a White family earns. This is indicative of strong barriers to generational wealth."
     },
     {
         template: "card",
+        hideViz: true,
         title: "What if this 40 acre promise was kept to Black families?",
         body: "We will model 18,000 Black families and 18,000 white families in South Carolina over time, tracking their respective wealth trajectories under a “40 acres and a mule” scenario compared to what actually occurred in history. We will simulate an initial land grant of 40 acres to each family and track changes in net worth over time through wealth channels such as income, savings, and investments, as well as economic opportunities including access to loans and exposure to large-scale economic shocks."
     },

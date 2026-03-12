@@ -56,57 +56,8 @@ function syncFrameFromScroll() {
     if (newIndex >= 0 && newIndex !== Frames.getCurrentFrameIndex()) {
         updateActiveFrame(newIndex);
     } else {
-        syncVizVisibility();
+        VizVisibility.sync(Frames.getCurrentFrameIndex());
     }
-}
-
-var HIDE_VIZ_OVERLAP_HIDE_THRESHOLD = 50;
-var HIDE_VIZ_OVERLAP_SHOW_THRESHOLD = 20;
-
-function getHideVizOverlapAmount() {
-    var panel = document.getElementById('viz-panel');
-    if (!panel) return 0;
-
-    var panelRect = panel.getBoundingClientRect();
-    var panelTop = panelRect.top;
-    var panelBottom = panelRect.bottom;
-
-    var maxOverlap = 0;
-    for (var i = 0; i < frames.length; i++) {
-        if (frames[i] && frames[i].hideViz === true) {
-            var $frame = $('.frame').eq(i);
-            if ($frame.length) {
-                var frameRect = $frame[0].getBoundingClientRect();
-                var frameTop = frameRect.top;
-                var frameBottom = frameRect.bottom;
-                var overlapTop = Math.max(frameTop, panelTop);
-                var overlapBottom = Math.min(frameBottom, panelBottom);
-                var overlap = Math.max(0, overlapBottom - overlapTop);
-                if (overlap > maxOverlap) maxOverlap = overlap;
-            }
-        }
-    }
-    return maxOverlap;
-}
-
-function computeShouldShowViz(baseShow) {
-    var overlap = getHideVizOverlapAmount();
-    var isShowing = $('body').hasClass('show-viz');
-    if (baseShow) {
-        return isShowing
-            ? overlap < HIDE_VIZ_OVERLAP_HIDE_THRESHOLD
-            : overlap < HIDE_VIZ_OVERLAP_SHOW_THRESHOLD;
-    }
-    return false;
-}
-
-function syncVizVisibility() {
-    var frameIndex = Frames.getCurrentFrameIndex();
-    if (frameIndex < 0) return;
-
-    var baseShow = VizState.shouldShowChart(frameIndex);
-    var shouldShow = computeShouldShowViz(baseShow);
-    $('body').toggleClass('show-viz', shouldShow);
 }
 
 function updateActiveFrame(newIndex) {
@@ -128,26 +79,12 @@ function updateActiveFrame(newIndex) {
     syncToggleButtonsForFrame(newIndex);
 }
 
-function updateChartForFrame(frameIndex) {
-    var baseShow = VizState.shouldShowChart(frameIndex);
-    var shouldShow = computeShouldShowViz(baseShow);
-    $('body').toggleClass('show-viz', shouldShow);
-
-    if (!shouldShow) return;
-
-    var frameData = frames[frameIndex] || {};
-    var seriesData = Simulation.getSeries();
-    if (!seriesData || !seriesData.length) return;
-
-    var targetYear = VizState.getTargetYearForFrame(frameIndex, seriesData);
-
+function renderChartContent(frameIndex, frameData, seriesData, targetYear) {
     if (frameData.template === 'toggle' && frameData.factorKey) {
         var factorKey = frameData.factorKey;
         var baselineData = Simulation.getSeriesForFactor('NE');
         var factorData = Simulation.getSeriesForFactor(factorKey);
         if (!baselineData.length || !factorData.length) return;
-
-        targetYear = seriesData[seriesData.length - 1].year;
 
         var showFactorAsPrimary = (ToggleState[frameIndex] !== 'actual');
         var factorLabel = frameData.toggleOptionA || factorKey;
@@ -169,18 +106,33 @@ function updateChartForFrame(frameIndex) {
                 ],
         ].flat();
 
-        Chart.renderLineChart(seriesData, targetYear, {
-            series: comparisonSeries,
-            comparisonRows: factorData,
-        });
+        Chart.renderLineChart(seriesData, targetYear, { series: comparisonSeries, comparisonRows: factorData });
         Timeline.updateVizLegend(comparisonSeries);
     } else {
         Chart.renderLineChart(seriesData, targetYear);
         Timeline.updateVizLegend(Chart.getDefaultSeries());
     }
+}
 
-    var eraTitle = VizState.getDateTitleForFrame(frameIndex);
-    Timeline.updateVizEraTitle(eraTitle);
+function updateChartForFrame(frameIndex) {
+    var baseShow = VizState.shouldShowChart(frameIndex);
+    var shouldShow = VizVisibility.shouldShow(baseShow);
+    $('body').toggleClass('show-viz', shouldShow);
+
+    if (!shouldShow) return;
+
+    var frameData = frames[frameIndex] || {};
+    var seriesData = Simulation.getSeries();
+    if (!seriesData || !seriesData.length) return;
+
+    var targetYear = VizState.getTargetYearForFrame(frameIndex, seriesData);
+    if (frameData.template === 'toggle' && frameData.factorKey) {
+        targetYear = seriesData[seriesData.length - 1].year;
+    }
+
+    renderChartContent(frameIndex, frameData, seriesData, targetYear);
+
+    Timeline.updateVizEraTitle(VizState.getDateTitleForFrame(frameIndex));
     Timeline.updateVizYearReadout('Visible data through ' + targetYear + ' (log scale)');
 }
 
