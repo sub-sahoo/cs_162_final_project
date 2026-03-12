@@ -23,6 +23,15 @@ var VizVisibility = (function () {
                 }
             }
         }
+        var writeup = document.getElementById('writeup');
+        if (writeup) {
+            var wr = writeup.getBoundingClientRect();
+            var oTop = Math.max(wr.top, panelTop);
+            var oBottom = Math.min(wr.bottom, panelBottom);
+            var wOverlap = Math.max(0, oBottom - oTop);
+            if (wOverlap > maxOverlap) maxOverlap = wOverlap;
+        }
+
         return maxOverlap;
     }
 

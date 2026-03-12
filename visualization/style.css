@@ -843,42 +843,65 @@ canvas {
   }
 }
 
-/* Data viz switching toggle */
-#viz-panel {
-  pointer-events: none;
+/* ── Writeup section ── */
+#writeup {
+  max-width: var(--article-width);
+  margin: clamp(3rem, 6vw, 6rem) auto;
+  padding: 0 clamp(0.9rem, 3vw, 2.5rem);
 }
 
-#viz-panel button {
-  pointer-events: auto;
+.writeup-title {
+  font-family: "Fraunces", Georgia, serif;
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1.1;
+  color: #0f172a;
+  margin: 0 0 2rem;
+  border-bottom: 2px solid #e2e8f0;
+  padding-bottom: 1rem;
 }
 
-#viz-dataset-toggle {
-  margin-top: 14px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
+.writeup-heading {
+  font-family: "Fraunces", Georgia, serif;
+  font-size: clamp(1.3rem, 2.4vw, 1.75rem);
+  line-height: 1.2;
+  color: #0f172a;
+  margin: 2.5rem 0 1rem;
 }
 
-#viz-dataset-toggle button {
-  padding: 6px 12px;
-  border-radius: 16px;
-  border: 1px solid #d0d0d0;
-  background: white;
-  font-size: 13px;
-  cursor: pointer;
-  transition: all 0.15s ease;
+.writeup-page {
+  font-family: "Manrope", "Helvetica Neue", Arial, sans-serif;
+  font-size: 1.1rem;
+  line-height: 1.75;
+  color: #1e293b;
 }
 
-#viz-dataset-toggle button:hover {
-  background: #f3f3f3;
+.writeup-page p {
+  margin: 0 0 1rem;
 }
 
-#viz-dataset-toggle button.active {
-  background: #0f172a;
-  color: white;
-  border-color: #0f172a;
+.writeup-page ul,
+.writeup-page ol {
+  margin: 0 0 1.2rem 1.4rem;
+  padding: 0;
 }
 
-#viz-chart {
-  transition: opacity 0.4s ease;
+.writeup-page li {
+  margin: 0.4rem 0;
+}
+
+.writeup-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 1.5rem 0;
+  border: 1px solid #e2e8f0;
+}
+
+.writeup-bibliography a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.writeup-bibliography a:hover {
+  text-decoration: underline;
 }
