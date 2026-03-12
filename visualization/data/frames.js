@@ -252,6 +252,7 @@ const frames = [
   },
   {
     template: "card",
+    datasetToggle: true,
     subtitle: "Explore how removing barriers changes the wealth trajectory",
     body: "Use the controls below the chart to explore how different structural barriers influence long term wealth outcomes."
   }
