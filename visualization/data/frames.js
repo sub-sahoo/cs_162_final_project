@@ -28,6 +28,7 @@ const frames = [
   {
     template: "card",
     title: "1865",
+    statsYear: 1865,
     subtitle: "What actually happened",
     body: `
     <p><u>Reconstruction policies</u>: After the Civil War, newly freed people briefly gained political representation and some economic opportunities during Reconstruction. However, large-scale land redistribution largely failed, leaving most Black families without property.</p>
@@ -55,12 +56,14 @@ const frames = [
     template: "card",
     image: "assets/frame8.png",
     statsYear: 1880,
+    showStats: true,
     body: `<p class="model-stats-loading">Loading simulation statistics...</p>`,
     wage: 1
   },
   {
     template: "card",
     title: "1910s-20s",
+    statsYear: 1910,
     body: `
 <p>As the United States industrialized in the early 20th century, economic opportunities for Black families began to shift.</p>
 
@@ -87,6 +90,7 @@ const frames = [
     template: "card",
     image: "assets/frame12.png",
     statsYear: 1920,
+    showStats: true,
     body: `<p class="model-stats-loading">Loading simulation statistics...</p>`,
     wage: 1
   },
@@ -109,6 +113,7 @@ const frames = [
     template: "card",
     image: "assets/frame16.png",
     statsYear: 1940,
+    showStats: true,
     body: `<p class="model-stats-loading">Loading simulation statistics...</p>`
   },
   {
@@ -128,6 +133,7 @@ const frames = [
     template: "card",
     image: "assets/frame20.png",
     statsYear: 1960,
+    showStats: true,
     body: `<p class="model-stats-loading">Loading simulation statistics...</p>`
   },
   {
@@ -156,6 +162,7 @@ const frames = [
   {
     template: "card",
     title: "2000s",
+    statsYear: 2000,
     body: `
     <p><u>Subprime lending disparities</u>: Black homeowners were disproportionately targeted with high-risk mortgages and subprime loans, often receiving worse terms even when they qualified for conventional loans.</p>
 
