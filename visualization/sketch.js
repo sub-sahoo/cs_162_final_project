@@ -55,7 +55,58 @@ function syncFrameFromScroll() {
     var newIndex = Frames.getActiveFrameIndex();
     if (newIndex >= 0 && newIndex !== Frames.getCurrentFrameIndex()) {
         updateActiveFrame(newIndex);
+    } else {
+        syncVizVisibility();
     }
+}
+
+var HIDE_VIZ_OVERLAP_HIDE_THRESHOLD = 50;
+var HIDE_VIZ_OVERLAP_SHOW_THRESHOLD = 20;
+
+function getHideVizOverlapAmount() {
+    var panel = document.getElementById('viz-panel');
+    if (!panel) return 0;
+
+    var panelRect = panel.getBoundingClientRect();
+    var panelTop = panelRect.top;
+    var panelBottom = panelRect.bottom;
+
+    var maxOverlap = 0;
+    for (var i = 0; i < frames.length; i++) {
+        if (frames[i] && frames[i].hideViz === true) {
+            var $frame = $('.frame').eq(i);
+            if ($frame.length) {
+                var frameRect = $frame[0].getBoundingClientRect();
+                var frameTop = frameRect.top;
+                var frameBottom = frameRect.bottom;
+                var overlapTop = Math.max(frameTop, panelTop);
+                var overlapBottom = Math.min(frameBottom, panelBottom);
+                var overlap = Math.max(0, overlapBottom - overlapTop);
+                if (overlap > maxOverlap) maxOverlap = overlap;
+            }
+        }
+    }
+    return maxOverlap;
+}
+
+function computeShouldShowViz(baseShow) {
+    var overlap = getHideVizOverlapAmount();
+    var isShowing = $('body').hasClass('show-viz');
+    if (baseShow) {
+        return isShowing
+            ? overlap < HIDE_VIZ_OVERLAP_HIDE_THRESHOLD
+            : overlap < HIDE_VIZ_OVERLAP_SHOW_THRESHOLD;
+    }
+    return false;
+}
+
+function syncVizVisibility() {
+    var frameIndex = Frames.getCurrentFrameIndex();
+    if (frameIndex < 0) return;
+
+    var baseShow = VizState.shouldShowChart(frameIndex);
+    var shouldShow = computeShouldShowViz(baseShow);
+    $('body').toggleClass('show-viz', shouldShow);
 }
 
 function updateActiveFrame(newIndex) {
@@ -78,7 +129,8 @@ function updateActiveFrame(newIndex) {
 }
 
 function updateChartForFrame(frameIndex) {
-    var shouldShow = VizState.shouldShowChart(frameIndex);
+    var baseShow = VizState.shouldShowChart(frameIndex);
+    var shouldShow = computeShouldShowViz(baseShow);
     $('body').toggleClass('show-viz', shouldShow);
 
     if (!shouldShow) return;
@@ -195,4 +247,12 @@ function loadSimulationDataAndPopulate() {
             Timeline.updateVizYearReadout('Could not load final simulation mean CSV.');
             ModelStats.populateError('Could not load final simulation mean CSV.');
         });
+}
+
+function onFrameEnter(index) {
+    console.log("Entered frame " + index);
+}
+
+function onFrameLeave(index) {
+    console.log("Left frame " + index);
 }

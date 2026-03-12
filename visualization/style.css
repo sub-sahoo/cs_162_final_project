@@ -44,6 +44,7 @@ body {
   justify-content: center;
   overflow: visible;
   scroll-margin-top: calc(var(--timeline-height) + 1rem);
+  border-bottom: 2px solid red;
 }
 
 .frame + .frame {
@@ -498,17 +499,20 @@ body {
 
 #viz-panel {
   position: fixed;
-  top: calc(var(--timeline-height) + 1.25rem);
+  top: 50%;
+  transform: translateY(calc(-50% + var(--timeline-height) / 2));
   left: clamp(0.75rem, 2.5vw, 2.5rem);
   width: min(56vw, 820px);
   height: min(72vh, 560px);
   z-index: 120;
-  display: none;
+  visibility: hidden;
+  opacity: 0;
   pointer-events: none;
 }
 
 body.show-viz #viz-panel {
-  display: block;
+  visibility: visible;
+  opacity: 1;
 }
 
 .viz-panel-content {

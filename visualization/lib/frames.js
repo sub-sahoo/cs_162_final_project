@@ -13,24 +13,41 @@ var Frames = (function () {
 
         var scrollTop = $(window).scrollTop();
         var viewportHeight = $(window).height();
-        var activationLine = scrollTop + getTimelineOffset() + viewportHeight * 0.2;
-        var activeIndex = 0;
+        var viewportTop = scrollTop;
+        var viewportBottom = scrollTop + viewportHeight;
+
+        var bestIndex = 0;
+        var bestVisible = 0;
+        var visibleByIndex = [];
 
         $frames.each(function (index) {
-            var frameTop = $(this).offset().top;
-            var frameBottom = frameTop + $(this).outerHeight();
+            var el = this;
+            var rect = el.getBoundingClientRect();
+            var frameTop = rect.top + scrollTop;
+            var frameBottom = frameTop + rect.height;
 
-            if (activationLine >= frameTop && activationLine < frameBottom) {
-                activeIndex = index;
-                return false;
-            }
+            var visibleTop = Math.max(frameTop, viewportTop);
+            var visibleBottom = Math.min(frameBottom, viewportBottom);
+            var visibleHeight = Math.max(0, visibleBottom - visibleTop);
 
-            if (activationLine >= frameBottom) {
-                activeIndex = index;
+            visibleByIndex[index] = visibleHeight;
+            if (visibleHeight > bestVisible) {
+                bestVisible = visibleHeight;
+                bestIndex = index;
             }
         });
 
-        return activeIndex;
+        var current = currentFrameIndex;
+        var hysteresisThreshold = viewportHeight * 0.15;
+
+        if (current >= 0 && current < visibleByIndex.length && bestIndex !== current) {
+            var currentVisible = visibleByIndex[current] || 0;
+            if (currentVisible >= hysteresisThreshold && currentVisible >= bestVisible - viewportHeight * 0.05) {
+                return current;
+            }
+        }
+
+        return bestIndex;
     }
 
     function queueScrollUpdate(onUpdate) {
