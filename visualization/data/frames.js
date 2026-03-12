@@ -16,6 +16,11 @@ const frames = [
     body: "400,000 acres is 1.3x larger than the city of Los Angeles."
   },
   {
+    template: "card",
+
+    body: "This moment matters because wealth grows differently than wages. Income can support a family in the present, but assets like land can grow, be invested, and be passed down across generations. In the United States, much of today's wealth inequality comes from these long-term differences in asset ownership. According to the United States Census Bureau, Black households make up 13.6% of all U.S. households but hold only 4.7% of all wealth. And their median wealth ($24,520) was about one-tenth the median wealth of households with a White householder ($250,400). This is largely because wealth has compounded across generations for families who owned property."
+  },
+  {
     template: "split",
     title: "The Current Situation",
     image: "assets/present_day.png",
